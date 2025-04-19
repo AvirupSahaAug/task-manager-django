@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Task Manager</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <style>
+    /* Reset defaults and set background for body */
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background-color: #001f3f; /* Dark Blue */
+    }
+    .complete-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 1px 1px 5px rgba(0,0,0,0.2);
+    transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.complete-btn:hover {
+    background-color: #45a049;
+    transform: scale(1.02);
+}
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 220px;
+      background-color: #001f3f; /* Dark Blue */
+      padding: 1rem;
+      border-right: 1px solid #7FDBFF; /* Light Blue border */
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-sizing: border-box;
+    }
+    /* Ensure all text in sidebar is light blue */
+    .sidebar,
+    .sidebar h4,
+    .sidebar p,
+    .sidebar a,
+    .sidebar li {
+      color: #7FDBFF !important;
+    }
+    .sidebar a {
+      text-decoration: none;
+    }
+    /* Content area shifted right to avoid overlap with fixed sidebar */
+    .content {
+      margin-left: 240px; /* Sidebar width + spacing */
+      padding: 1rem;
+      background-color: #001f3f;
+      color: white;
+      min-height: 100vh;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <div class="nav-section">
+      <h4>Dashboard</h4>
+      <ul class="nav flex-column">
+        <li class="nav-item"><a class="nav-link" href="{% url 'daily_tasks' %}">Daily</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'weekly_tasks' %}">Weekly</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'monthly_tasks' %}">Monthly</a></li>
+        <li class="nav-item"><a  class="nav-link" href="{% url 'due_tasks' %}">Due{% if has_due_tasks %}
+          <span style="color: red;">&#9888;</span> <!-- warning symbol -->
+        {% endif %}</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'completed_tasks' %}">Completed</a></li>
+        
+  
+      </ul>
+    </div>
+    <div class="user-info">
+      {% if user.is_authenticated %}
+        <p>Hello, <strong>{{ user.username }}</strong></p>
+        <form method="post" action="{% url 'logout' %}">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-outline-danger btn-sm">Logout</button>
+        </form>
+      {% else %}
+        <a href="{% url 'login' %}" class="btn btn-outline-primary btn-sm">Login</a>
+      {% endif %}
+    </div>
+  </div>
+  <div class="content">
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-info">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+    {% block content %}{% endblock %}
+  </div>
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

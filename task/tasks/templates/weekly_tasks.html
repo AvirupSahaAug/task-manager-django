@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+  <h2 class="text-center text-white mb-4">
+    Weekly Tasks ({{ start_of_week }} - {{ end_of_week }})
+  </h2>
+
+  <!-- Navigation + Add buttons -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <a href="?week_offset={{ prev_week_offset }}" class="btn btn-outline-light">&laquo; Previous Week</a>
+    
+    <div>
+      <a href="{% url 'add_task' %}" class="btn btn-primary me-2">Add Task</a>
+      <a href="{% url 'create_group_task' %}" class="btn btn-secondary">Add Group Task</a>
+    </div>
+    
+    <a href="?week_offset={{ next_week_offset }}" class="btn btn-outline-light">Next Week &raquo;</a>
+  </div>
+
+  <!-- Task Grid Table -->
+  <table class="table table-bordered table-sm table-dark">
+    <thead class="thead-dark">
+      <tr class="text-center">
+        <th>Hour</th>
+        {% for day in day_names %}
+          <th class="text-center">{{ day }}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in grid %}
+        {% if row|length > 0 %}
+          <tr>
+            <th scope="row" class="text-center align-middle" style="background-color: #343a40;">
+              {{ forloop.counter0 }}:00
+            </th>
+            {% for cell in row %}
+              <td class="align-top" style="min-height: 30px; padding: 10px; vertical-align: top;">
+                {% if cell %}
+                  {% for task in cell %}
+                    {% with task.color|lower as bg_color %}
+                      <div class="task-box p-3 mb-2"
+                           style="
+                             background-color: {{ task.color }};
+                             border-radius: 5px;
+                             {% if bg_color == 'white' or bg_color == '#fff' or bg_color == '#ffffff' %}
+                               color: black !important;
+                             {% else %}
+                               color: white !important;
+                             {% endif %}
+                           ">
+                        <strong>{{ task.title }}</strong><br>
+                        <small class="text-muted">{{ task.due_date|date:"H:i" }}</small><br>
+                        <a href="{% url 'complete_task' task.id %}" class="btn btn-sm btn-outline-success mt-2">Complete</a>
+                      </div>
+                    {% endwith %}
+                  {% endfor %}
+                {% else %}
+                  <div class="text-center text-muted">
+                    <small>No tasks</small>
+                  </div>
+                {% endif %}
+              </td>
+            {% endfor %}
+          </tr>
+        {% endif %}
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .task-box {
+    border: 1px solid #555;
+    transition: all 0.3s ease;
+  }
+  .task-box:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: translateY(-3px);
+  }
+  th {
+    background-color: #495057;
+    color: white;
+  }
+  td {
+    text-align: center;
+    vertical-align: top;
+  }
+  td small {
+    display: block;
+    margin-top: 5px;
+  }
+  .btn-outline-success {
+    font-size: 0.75rem;
+    padding: 5px 10px;
+  }
+  .table th, .table td {
+    vertical-align: middle;
+  }
+  tbody {
+    background-color: #2c3034;
+  }
+</style>
+{% endblock %}

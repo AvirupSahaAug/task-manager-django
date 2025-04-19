@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+  body {
+    background: #001f3f;
+  }
+
+  .completed-tasks-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem;
+    min-height: 100vh;
+    background: linear-gradient(to bottom right, #001f3f, #0074D9);
+    color: white;
+  }
+
+  .completed-tasks-container h2 {
+    color: #7FDBFF;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  .task-list {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+    max-width: 700px;
+  }
+
+  .task-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    backdrop-filter: blur(8px);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease;
+  }
+
+  .task-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .task-card strong {
+    color: #7FDBFF;
+    font-size: 1.2rem;
+  }
+
+  .task-card .due-date {
+    font-size: 0.9rem;
+    color: #AAAAAA;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+
+  .task-card .description {
+    font-size: 1rem;
+    color: #E0E0E0;
+  }
+
+  .no-tasks {
+    color: #FFDC00;
+    font-style: italic;
+    margin-top: 1rem;
+  }
+</style>
+
+<div class="completed-tasks-container">
+  <h2>✔️ Completed Tasks</h2>
+  <ul class="task-list">
+    {% for task in tasks %}
+      <li class="task-card">
+        <strong>{{ task.title }}</strong>
+        <span class="due-date">Completed on: {{ task.due_date|date:"D d M, H:i" }}</span>
+        <div class="description">{{ task.description }}</div>
+      </li>
+    {% empty %}
+      <li class="no-tasks">No completed tasks yet.</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

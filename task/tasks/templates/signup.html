@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+  .form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 1rem;
+  }
+
+  .signup-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+    padding: 2rem;
+    width: 100%;
+    max-width: 450px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    animation: fadeInUp 0.8s ease-out forwards;
+    transform: translateY(40px);
+    opacity: 0;
+  }
+
+  @keyframes fadeInUp {
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  .signup-card h2 {
+    color: #7FDBFF;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .signup-card label {
+    color: #ffffff;
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+
+  .form-control {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border: 1px solid #7FDBFF;
+    border-radius: 8px;
+  }
+
+  .form-control::placeholder {
+    color: #ccc;
+  }
+
+  .form-control:focus {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-color: #39CCCC;
+    box-shadow: none;
+    color: #fff;
+  }
+
+  .btn-signup {
+    background-color: #7FDBFF;
+    color: #001f3f;
+    font-weight: bold;
+    border: none;
+    transition: 0.3s ease;
+    border-radius: 8px;
+  }
+
+  .btn-signup:hover {
+    background-color: #2ECCFA;
+    color: #001f3f;
+  }
+
+  .signup-card a {
+    color: #7FDBFF;
+    text-decoration: none;
+  }
+
+  .signup-card a:hover {
+    color: #ffffff;
+    text-decoration: underline;
+  }
+
+  .text-danger {
+    font-size: 0.85rem;
+  }
+</style>
+
+<div class="form-container">
+  <div class="signup-card">
+    <h2 class="mb-4">Sign Up</h2>
+    <form method="post" novalidate>
+      {% csrf_token %}
+      {% for field in form %}
+        <div class="mb-3">
+          <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+          {{ field }}
+          {% if field.errors %}
+            <div class="text-danger">{{ field.errors|join:", " }}</div>
+          {% endif %}
+        </div>
+      {% endfor %}
+      <button type="submit" class="btn btn-signup w-100 mt-2">Sign Up</button>
+    </form>
+    <p class="text-center mt-3">
+      Already have an account?
+      <a href="{% url 'login' %}">Login</a>
+    </p>
+  </div>
+</div>
+{% endblock %}

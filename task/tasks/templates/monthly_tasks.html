@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% load dict_extras %}
+{% block content %}
+<div class="container mt-4">
+  <!-- Month Name with White Text Color and Shadow -->
+  <h2 class="text-center mb-4 shadow-text text-white">{{ month_name }} {{ year }} Tasks</h2>
+
+  <!-- Navigation -->
+  <div class="d-flex justify-content-between mb-3">
+    <a href="?year={{ prev_year }}&month={{ prev_month }}"
+       class="btn btn-outline-primary nav-btn shadow-text text-white">&larr; Previous Month</a>
+    <a href="?year={{ next_year }}&month={{ next_month }}"
+       class="btn btn-outline-primary nav-btn shadow-text text-white">Next Month &rarr;</a>
+  </div>
+
+  <table class="table table-bordered table-dark">
+    <thead>
+      <tr class="text-center">
+        <th class="cell-heading shadow-text">Mon</th>
+        <th class="cell-heading shadow-text">Tue</th>
+        <th class="cell-heading shadow-text">Wed</th>
+        <th class="cell-heading shadow-text">Thu</th>
+        <th class="cell-heading shadow-text">Fri</th>
+        <th class="cell-heading shadow-text">Sat</th>
+        <th class="cell-heading shadow-text">Sun</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for week in month_calendar %}
+        <tr>
+          {% for day in week %}
+            <td style="vertical-align: top; min-height: 100px; word-wrap: break-word;">
+              {% if day %}
+                <div class="day-box mb-2">
+                  <strong class="shadow-text day-number">{{ day }}</strong>
+                </div>
+
+                {% with tasks=tasks_by_day|get_item:day %}
+                  {% if tasks %}
+                    <ul class="list-unstyled mb-0">
+                      {% for task in tasks %}
+                        <li class="task-item shadow-text"
+                            style="background-color: {{ task.color }};">
+                          &#8226; {{ task.title }}
+                        </li>
+                      {% endfor %}
+                    </ul>
+                  {% else %}
+                    <div class="no-task-text small">No tasks</div>
+                  {% endif %}
+                {% endwith %}
+              {% endif %}
+            </td>
+          {% endfor %}
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<style>
+  /* Darker gray text with subtle drop-shadow */
+  .shadow-text {
+    color: #fff !important;
+    text-shadow: 1px 1px 8px rgb(75, 35, 35);
+  }
+
+  .nav-btn {
+    font-weight: bold;
+  }
+
+  .nav-btn.text-white {
+    color: white !important;
+  }
+
+  .day-box {
+    background-color: #343a40;
+    padding: 6px;
+    text-align: center;
+    border-radius: 4px;
+  }
+
+  .day-number {
+    font-size: 1rem;
+  }
+
+  .task-item {
+    padding: 5px 8px;
+    margin-bottom: 5px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+  }
+
+  .no-task-text {
+    font-size: 0.85rem;
+    text-align: center;
+    padding: 4px;
+    color: #6c757d;
+  }
+
+  .table th, .table td {
+    vertical-align: top;
+    padding: 8px;
+  }
+
+  .table-dark th {
+    background-color: #495057;
+  }
+
+  .table-dark td {
+    background-color: #2c3034;
+  }
+</style>
+{% endblock %}

@@ -1,0 +1,19 @@
+set the ending time  of each task
+
+set specific events like meeting , event (entertainment sort)  and a game event(productivity streak sort)
+something that will have like a particular color assigned to it  instead of like random colors each user can have different colored events too like presetting a color for a particular event type
+
+assign gemini for easier access
+
+make pre defined team groups for the group task assignment
+
+when inviting or giving others a meetting , check if someone has a meeting in that time period notify the sender that this so and so user is already in a meeting the priority will be based on the time when the task is placed this can be dont to every task
+
+repeating tasks(if possible)
+
+create streaks?(users can get a friggin leaderboard)
+
+scan emails and turn them into tasks***
+
+whenever you are working and you come across something nis you select it and put it into clipboard or put the screen snap in clipboard whenever you click a button on the website , it will read your clipboard and update tasks****
+
