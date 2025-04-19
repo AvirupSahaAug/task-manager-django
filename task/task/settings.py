@@ -133,7 +133,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'noise.saha@gmail.com'
-EMAIL_HOST_PASSWORD = 'jabjgivngvfmqffx'  # Use an app-specific password if 2FA is enabled
+EMAIL_HOST_PASSWORD =  # Use an app-specific password if 2FA is enabled
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 

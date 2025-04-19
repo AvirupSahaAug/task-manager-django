@@ -232,6 +232,7 @@ def voice_task(request):
     if not transcript:
         return JsonResponse({"status": "error", "error": "Empty transcript"}, status=400)
 
+    # Configure Gemini
     genai.configure(api_key="")
     model = genai.GenerativeModel('gemini-2.0-flash')
 
